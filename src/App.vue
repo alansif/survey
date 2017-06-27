@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <h1>{{ msg }}</h1>
     <el-button @click.native="startHacking">Let's do it</el-button>
         <router-view></router-view>
   </div>
@@ -10,7 +9,6 @@
 export default {
   data () {
     return {
-      msg: 'Use Vue 2.0 Today!'
     }
   },
 
