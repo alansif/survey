@@ -3,8 +3,8 @@
         <el-button type="primary" @click="go()">click</el-button>
         <template v-for="(question,idx) in questions">
             <p class="ques">{{question.QID}}.{{question.Question}}</p>
-            <checkboxs v-if="question.Multiple" :items="question.Alts"></checkboxs>
-            <radios v-else :items="question.Alts"></radios>
+            <checkboxs v-if="question.Multiple" :items="question.Alts" :qid="question.QID" @change="cbchanged(arguments[0], arguments[1])"></checkboxs>
+            <radios v-else :items="question.Alts" :qid="question.QID" @change="radiochanged(arguments[0], arguments[1])"></radios>
         </template>
     </div>
 </template>
@@ -15,8 +15,7 @@
     export default {
         data () {
             return {
-                questions: [],
-                answers:{'M1':'B'}
+                questions: []
             }
         },
         methods: {
@@ -25,7 +24,7 @@
                     var d = JSON.parse(response.body.d);
                     this.questions = d.data;
                     this.questions.forEach(q=>{
-                        this.answers[q.QID] = "B"
+                        q.answer = "B"
                     });
                     console.log(this.questions);
                 }, (response) => {
@@ -33,6 +32,12 @@
                 }).catch((response) => {
                     console.log(response);
                 });
+            },
+            radiochanged(qid, answer) {
+                console.log("radio qid:"+qid+",answer:"+answer);
+            },
+            cbchanged(qid, answer) {
+                console.log("cb qid:"+qid+",answer:"+answer);
             }
         },
         components:{
@@ -62,7 +67,7 @@
         border: 1px solid #ddd;
         border-radius: 10px;
         color: #555;
-        background-color: #f3f3f3;
+        background-color: #f7f7f7;
         box-shadow: 1px 1px 1px #888;
     }
     .ques {
