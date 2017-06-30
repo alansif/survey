@@ -6,15 +6,20 @@
 
 <script>
     export default {
-        props: ['items','qid'],
+        props: ['items','qid','curselext'],
         data() {
             return {
-                cursel: ''
+                cursel: (this.curselext && this.curselext[0]) || ""
+            }
+        },
+        watch:{
+            curselext(v) {
+                this.cursel = (v && v[0]) || ""
             }
         },
         methods:{
             change() {
-                this.$emit('change', this.qid, this.cursel);
+                this.$emit('change', this.qid, this.cursel.length === 0 ? [] : [this.cursel]);
             }
         }
     }
